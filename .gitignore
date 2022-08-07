@@ -1,0 +1,9 @@
+# Project exclude paths
+/apigw/target/
+/clients/target/
+/curse/target/
+/eureka-server/target/
+/kafka/target/
+/notification/target/
+/registered/target/
+/student/target/
