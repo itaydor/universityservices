@@ -9,14 +9,19 @@ import com.ius.student.request.StudentCurseRequest;
 import com.ius.student.request.StudentRegistrationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class StudentService {
+public class StudentService implements UserDetailsService {
 
+    private final static String USER_NOT_FOUND_MSG =
+            "user with email %s not found";
     private final StudentRepository studentRepository;
     private final CurseClient curseClient;
     private final RegisteredClient registeredClient;
@@ -89,5 +94,17 @@ public class StudentService {
         if(!exp){
             throw new IllegalStateException(messageIfFalse);
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return studentRepository.getStudentByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(
+                                String.format(USER_NOT_FOUND_MSG, email)));
+    }
+
+    public String register(StudentRegistrationRequest request) {
+        return "it works";
     }
 }

@@ -14,6 +14,11 @@ public class StudentController {
 
     private final StudentService studentService;
 
+    @PostMapping(path = "registration")
+    public String register(@RequestBody StudentRegistrationRequest request){
+        return studentService.register(request);
+    }
+
     @GetMapping(path = "{studentID}")
     public Student getStudentByID(@PathVariable("studentID") Integer studentID){
         log.info("Get Student by ID {}", studentID);
