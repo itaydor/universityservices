@@ -1,6 +1,7 @@
 package com.ius.notification;
 
 import com.ius.clients.notification.NotificationMessage;
+import com.ius.notification.email.EmailSender;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
+    private final EmailSender emailSender;
 
     public void send(NotificationMessage notificationMessage){
         notificationRepository.save(
@@ -22,5 +24,7 @@ public class NotificationService {
                         .sentAt(LocalDateTime.now())
                         .build()
         );
+
+        emailSender.send(notificationMessage.toStudentEmail(), notificationMessage.message());
     }
 }
