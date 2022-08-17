@@ -1,6 +1,6 @@
 package com.ius.student.security.config;
 
-import com.ius.student.StudentService;
+import com.ius.student.student.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

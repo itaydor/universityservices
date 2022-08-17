@@ -20,7 +20,7 @@ public class NotificationService {
                         .toStudentID(notificationMessage.toStudentID())
                         .toStudentEmail(notificationMessage.toStudentEmail())
                         .sender(notificationMessage.sender())
-                        .message(notificationMessage.message())
+                        .message("Confirmation email was sent")
                         .sentAt(LocalDateTime.now())
                         .build()
         );

@@ -1,4 +1,4 @@
-package com.ius.student;
+package com.ius.student.student;
 
 public enum StudentRule {
     USER,

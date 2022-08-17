@@ -1,5 +1,7 @@
 package com.ius.student;
 
+import com.ius.student.student.Student;
+import com.ius.student.student.StudentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,7 +28,7 @@ public class StudentApplication {
         SpringApplication.run(StudentApplication.class, args);
     }
 
-    @Bean
+//    @Bean
     CommandLineRunner commandLineRunner(StudentRepository studentRepository){
         List<Student> students = Arrays.asList(
                 Student.builder()

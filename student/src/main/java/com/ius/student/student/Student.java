@@ -1,4 +1,4 @@
-package com.ius.student;
+package com.ius.student.student;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

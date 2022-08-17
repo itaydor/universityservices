@@ -1,7 +1,10 @@
-package com.ius.student;
+package com.ius.student.student;
 
+import com.ius.student.registaration.RegistrationRequest;
+import com.ius.student.registaration.RegistrationService;
 import com.ius.student.request.StudentCurseRequest;
-import com.ius.student.request.StudentRegistrationRequest;
+import com.ius.student.student.Student;
+import com.ius.student.student.StudentService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -13,22 +16,19 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
 
     private final StudentService studentService;
+    private final RegistrationService registrationService;
 
     @PostMapping(path = "registration")
-    public String register(@RequestBody StudentRegistrationRequest request){
-        return studentService.register(request);
-    }
-
-    @GetMapping(path = "{studentID}")
-    public Student getStudentByID(@PathVariable("studentID") Integer studentID){
-        log.info("Get Student by ID {}", studentID);
-        return studentService.getStudentByID(studentID);
-    }
-
-    @PostMapping
-    public void registerStudent(@RequestBody StudentRegistrationRequest request){
+    public String register(@RequestBody RegistrationRequest request){
         log.info("New Student registration {}", request);
-        studentService.registerStudent(request);
+        return registrationService.register(request);
+    }
+
+    @GetMapping(path = "registration/confirm")
+    public String confirm(@RequestParam("token") String token){
+        log.info("New Student confirmation for token {}", token);
+        registrationService.confirmToken(token);
+        return "confirmed";
     }
 
     @PostMapping(path = "curse")

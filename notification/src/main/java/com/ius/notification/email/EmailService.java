@@ -21,7 +21,7 @@ public class EmailService implements EmailSender{
         try{
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(email, false);
+            helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject("Notification from University");
             helper.setFrom("University@University.ac.il");

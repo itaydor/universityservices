@@ -1,6 +1,6 @@
-package com.ius.student.request;
+package com.ius.student.registaration;
 
-public record StudentRegistrationRequest(
+public record RegistrationRequest(
         String firstName,
         String lastName,
         String email,
