@@ -5,7 +5,7 @@ import com.ius.clients.curse.CurseGetByNameResponse;
 import com.ius.clients.notification.NotificationMessage;
 import com.ius.clients.registered.RegisteredClient;
 import com.ius.clients.registered.RegisteredCurseRequest;
-import com.ius.student.registaration.RegistrationRequest;
+import com.ius.student.exception.ApiRequestException;
 import com.ius.student.registaration.token.ConfirmationToken;
 import com.ius.student.registaration.token.ConfirmationTokenService;
 import com.ius.student.request.StudentCurseRequest;
@@ -75,7 +75,7 @@ public class StudentService implements UserDetailsService {
 
     private void validate(boolean exp, String messageIfFalse) {
         if(!exp){
-            throw new IllegalStateException(messageIfFalse);
+            throw new ApiRequestException(messageIfFalse);
         }
     }
 
@@ -90,7 +90,7 @@ public class StudentService implements UserDetailsService {
     public String signUpStudent(Student student){
         boolean studentExists = studentRepository.getStudentByEmail(student.getEmail()).isPresent();
         if(studentExists){
-            throw new IllegalStateException("email is already taken");
+            throw new ApiRequestException("email is already taken");
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(student.getPassword());

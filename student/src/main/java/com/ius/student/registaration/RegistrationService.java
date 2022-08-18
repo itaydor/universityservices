@@ -1,5 +1,6 @@
 package com.ius.student.registaration;
 
+import com.ius.student.exception.ApiRequestException;
 import com.ius.student.registaration.token.ConfirmationToken;
 import com.ius.student.registaration.token.ConfirmationTokenService;
 import com.ius.student.student.Student;
@@ -25,7 +26,7 @@ public class RegistrationService {
         boolean isValidEmail = emailValidator.test(request.email());
 
         if(!isValidEmail){
-            throw new IllegalStateException(EMAIL_NOT_FOUND_MSG + request.email());
+            throw new ApiRequestException(EMAIL_NOT_FOUND_MSG + request.email());
         }
 
         return studentService.signUpStudent(
@@ -44,11 +45,11 @@ public class RegistrationService {
     @Transactional
     public String confirmToken(String token){
         ConfirmationToken confirmationToken = confirmationTokenService.getToken(token).orElseThrow(
-                () -> new IllegalStateException("Token not found")
+                () -> new ApiRequestException("Token not found")
         );
 
         if(confirmationToken.getConfirmedAt() != null){
-            throw new IllegalStateException("Email already confirmed");
+            throw new ApiRequestException("Email already confirmed");
         }
 
         confirmationTokenService.setConfirmedAt(token);
