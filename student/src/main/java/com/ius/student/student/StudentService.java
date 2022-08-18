@@ -6,6 +6,7 @@ import com.ius.clients.notification.NotificationMessage;
 import com.ius.clients.registered.RegisteredClient;
 import com.ius.clients.registered.RegisteredCurseRequest;
 import com.ius.student.exception.ApiRequestException;
+import com.ius.student.kafka.KafkaProducer;
 import com.ius.student.registaration.token.ConfirmationToken;
 import com.ius.student.registaration.token.ConfirmationTokenService;
 import com.ius.student.request.StudentCurseRequest;
@@ -32,7 +33,7 @@ public class StudentService implements UserDetailsService {
     private final StudentRepository studentRepository;
     private final CurseClient curseClient;
     private final RegisteredClient registeredClient;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaProducer kafkaProducer;
 
     private final ConfirmationTokenService confirmationTokenService;
 
@@ -52,7 +53,7 @@ public class StudentService implements UserDetailsService {
         Student student = studentOptional.get();
         String message = String.format("Hi %s %s, You joined to course %s", student.getFirstName(), student.getLastName(), studentCurseRequest.curseName());
         NotificationMessage notificationMessage = new NotificationMessage(student.getStudentID(), student.getEmail(), "University", message);
-        kafkaTemplate.send("university", notificationMessage);
+        kafkaProducer.send("university", notificationMessage);
     }
 
     public void leaveCurse(StudentCurseRequest studentCurseRequest) {
@@ -70,7 +71,7 @@ public class StudentService implements UserDetailsService {
         Student student = studentOptional.get();
         String message = String.format("Hi %s %s, You have left course %s", student.getFirstName(), student.getLastName(), studentCurseRequest.curseName());
         NotificationMessage notificationMessage = new NotificationMessage(student.getStudentID(), student.getEmail(), "University", message);
-        kafkaTemplate.send("university", notificationMessage);
+        kafkaProducer.send("university", notificationMessage);
     }
 
     private void validate(boolean exp, String messageIfFalse) {
@@ -119,7 +120,7 @@ public class StudentService implements UserDetailsService {
                 message
         );
 
-        kafkaTemplate.send("university", notificationMessage);
+        kafkaProducer.send("university", notificationMessage);
 
         return token;
     }
